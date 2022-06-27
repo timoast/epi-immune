@@ -1,0 +1,4 @@
+https://cf.10xgenomics.com/samples/cell-atac/2.0.0/10k_PBMC_ATAC_nextgem_Chromium_Controller/10k_PBMC_ATAC_nextgem_Chromium_Controller_fragments.tsv.gz
+https://cf.10xgenomics.com/samples/cell-atac/2.0.0/10k_PBMC_ATAC_nextgem_Chromium_Controller/10k_PBMC_ATAC_nextgem_Chromium_Controller_fragments.tsv.gz.tbi
+https://cf.10xgenomics.com/samples/cell-atac/2.0.0/10k_PBMC_ATAC_nextgem_Chromium_Controller/10k_PBMC_ATAC_nextgem_Chromium_Controller_singlecell.csv
+https://cf.10xgenomics.com/samples/cell-atac/2.0.0/10k_PBMC_ATAC_nextgem_Chromium_Controller/10k_PBMC_ATAC_nextgem_Chromium_Controller_filtered_peak_bc_matrix.h5
