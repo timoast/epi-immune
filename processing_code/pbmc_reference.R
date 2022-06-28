@@ -1,6 +1,15 @@
 library(Seurat)
 library(SeuratDisk)
 
+
+if (!requireNamespace("SeuratDisk", quietly = TRUE)) {
+  if (!requireNamespace("remotes", quietly = TRUE)) {
+    options(repos=list('CRAN'="https://cloud.r-project.org"))
+    install.packages("remotes")
+  }
+  remotes::install_github("mojaveazure/seurat-disk")
+}
+
 # load preprocessed reference
 obj <- LoadH5Seurat(file = "data/pbmc_reference/pbmc_multimodal.h5seurat")
 
