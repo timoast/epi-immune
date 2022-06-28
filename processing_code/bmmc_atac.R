@@ -20,7 +20,7 @@ names(frag.files) <-  list.files("data/bmmc_atac/", pattern = "^scATAC_")
 pk.all <- list()
 for (i in seq_along(frag.files)) {
   pks <- CallPeaks(
-    object = frag.files[[i]], macs2.path = "/home/stuartt/mambaforge-pypy3/envs/bridge/bin/macs2"
+    object = frag.files[[i]]
   )
   pk.all[[i]] <- pks
 }
