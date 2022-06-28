@@ -64,15 +64,25 @@ rule download_bmmc_atac:
         """
 
 rule download_bmmc_multiome:
-    output:
-        "data/bmmc_multiome/multiome/multiome_atac_processed_training.h5ad",
-        "data/bmmc_multiome/multiome/multiome_gex_processed_training.h5ad"
+    input: "datasets/bmmc_multiome/bmmc_multiome.txt"
+    output: "data/bmmc_multiome/GSE194122_openproblems_neurips2021_multiome_BMMC_processed.h5ad"
     message: "Download BMMC multiome"
     threads: 1
     shell:
         """
-        aws s3 sync s3://openproblems-bio/public/explore ./data/bmmc_multiome/ --request-payer
+        wget -i {input} -P data/bmmc_multiome
+        cd data/bmmc_multiome
+        gzip -d GSE194122_openproblems_neurips2021_multiome_BMMC_processed.h5ad.gz
         """
+
+rule download_bmmc_multiome_frags:
+    message: "Download BMMC multiome fragment files"
+    threads: 1
+    output: "data/bmmc_multiome/s1d1/atac_fragments.tsv.gz"
+    shell:
+      """
+      aws s3 sync s3://openproblems-bio/public/post_competition/multiome ./data/bmmc_multiome
+      """
 
 rule download_bmmc_reference:
     output: "objects/bmmc_reference.rds"
@@ -103,30 +113,30 @@ rule get_peaks:
 
 rule convert_bmmc_multiome:
     input:
-        "data/bmmc_multiome/multiome/multiome_atac_processed_training.h5ad",
-        "data/bmmc_multiome/multiome/multiome_gex_processed_training.h5ad"
+        "data/bmmc_multiome/GSE194122_openproblems_neurips2021_multiome_BMMC_processed.h5ad"
     output:
-        "data/bmmc_multiome/multiome/atac/counts.mtx",
-        "data/bmmc_multiome/multiome/atac/metadata.csv",
-        "data/bmmc_multiome/multiome/atac/peaks.csv",
-        "data/bmmc_multiome/multiome/rna/counts.mtx",
-        "data/bmmc_multiome/multiome/rna/metadata.csv",
-        "data/bmmc_multiome/multiome/rna/genes.csv"
+        "data/bmmc_multiome/atac/counts.mtx",
+        "data/bmmc_multiome/atac/metadata.csv",
+        "data/bmmc_multiome/atac/peaks.csv",
+        "data/bmmc_multiome/rna/counts.mtx",
+        "data/bmmc_multiome/rna/metadata.csv",
+        "data/bmmc_multiome/rna/genes.csv"
     message: "Convert BMMC multiome raw data"
     threads: 1
     shell:
       """
-      python processing_code/convert_h5ad.py data/bmmc_multiome/multiome
+      python processing_code/convert_h5ad.py data/bmmc_multiome
       """
 
 rule process_bmmc_multiome:
     input:
-        "data/bmmc_multiome/multiome/atac/counts.mtx",
-        "data/bmmc_multiome/multiome/atac/metadata.csv",
-        "data/bmmc_multiome/multiome/atac/peaks.csv",
-        "data/bmmc_multiome/multiome/rna/counts.mtx",
-        "data/bmmc_multiome/multiome/rna/metadata.csv",
-        "data/bmmc_multiome/multiome/rna/genes.csv"
+        "data/bmmc_multiome/atac/counts.mtx",
+        "data/bmmc_multiome/atac/metadata.csv",
+        "data/bmmc_multiome/atac/peaks.csv",
+        "data/bmmc_multiome/rna/counts.mtx",
+        "data/bmmc_multiome/rna/metadata.csv",
+        "data/bmmc_multiome/rna/genes.csv",
+        "data/annotations_hg38.rds"
     output: "objects/bmmc_multiome.rds"
     threads: 1
     message: "Generate BMMC multiome Seurat object"
@@ -150,8 +160,7 @@ rule process_bmmc_atac:
 
 rule create_annotations:
     output:
-        "data/annotations_hg38.rds",
-        "data/annotations_hg19.rds"
+        "data/annotations_hg38.rds"
     message: "Extracting annotations"
     threads: 1
     shell: "Rscript processing_code/get_annotations.R"

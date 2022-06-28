@@ -6,23 +6,27 @@ import pandas as pd
 
 basepath = sys.argv[1]
 
+bmmc = anndata.read_h5ad(basepath + "/GSE194122_openproblems_neurips2021_multiome_BMMC_processed.h5ad")
+df = bmmc.var
+atac_features = df.index[df['feature_types'] == 'ATAC'].tolist()
+rna_features = df.index[df['feature_types'] == 'GEX'].tolist()
+atac = bmmc[:, atac_features]
+rna = bmmc[:, rna_features]
+
+# RNA
 if not os.path.isdir(basepath + "/rna"):
     os.makedirs(basepath + "/rna")
-
-rna = anndata.read_h5ad(basepath + "/multiome_gex_processed_training.h5ad")
-rnacounts = rna.layers['counts']
+rnacounts = rna.layers["counts"]
 io.mmwrite(target=basepath + "/rna/counts.mtx", a=rnacounts)
 genenames = rna.var
 rna_md = rna.obs
 genenames.to_csv(basepath + "/rna/genes.csv")
 rna_md.to_csv(basepath + "/rna/metadata.csv")
 
-
+# ATAC
 if not os.path.isdir(basepath + "/atac"):
     os.makedirs(basepath + "/atac")
-
-atac = anndata.read_h5ad(basepath + "/multiome_atac_processed_training.h5ad")
-ataccounts = atac.X
+ataccounts = atac.layers["counts"]
 io.mmwrite(target=basepath + "/atac/counts.mtx", a=ataccounts)
 peaknames = atac.var
 atac_md = atac.obs
