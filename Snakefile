@@ -24,7 +24,15 @@ bmmc_multiome = [
         "bmmc_multiome"
         ]
 
-all_samples = pbmc_atac + pbmc_multiome + bmmc_atac + bmmc_multiome
+pbmc_reference = [
+        "pbmc_reference"
+]
+
+bmmc_reference = [
+        "bmmc_reference"
+]
+
+all_samples = pbmc_atac + pbmc_multiome + bmmc_atac + bmmc_multiome + pbmc_reference + bmmc_reference
 
 rule all:
   input:
@@ -90,7 +98,7 @@ rule download_bmmc_reference:
     threads: 1
     shell:
         """
-        aws s3 cp s3://bmmc-reference/public/fullref.Rds {output} --no-sign-request
+        aws s3 cp s3://bmmc-reference/public/fullref.Rds {output} --request-payer
         """
 
 rule download_pbmc_reference:
