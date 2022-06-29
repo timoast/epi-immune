@@ -47,6 +47,8 @@ snakemake -j 24
 See the [snakemake](https://snakemake.readthedocs.io/en/stable/)
 documentation for a complete list of available options.
 
+![](./plots/dag.svg)
+
 ## Datasets
 
 ### PBMC
