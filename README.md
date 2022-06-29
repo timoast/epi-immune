@@ -46,3 +46,70 @@ snakemake -j 24
 
 See the [snakemake](https://snakemake.readthedocs.io/en/stable/)
 documentation for a complete list of available options.
+
+## Datasets
+
+### PBMC
+
+#### pbmc_atac_500
+
+![](./plots/pbmc_atac_500.png)
+
+#### pbmc_atac_1k
+
+![](./plots/pbmc_atac_1k.png)
+
+#### pbmc_atac_5k
+
+![](./plots/pbmc_atac_5k.png)
+
+#### pbmc_atac_10k
+
+![](./plots/pbmc_atac_10k.png)
+
+#### pbmc_atac_10k_chromium
+
+![](./plots/pbmc_atac_10k_chromium.png)
+
+#### pbmc_atac_10k_chromiumX
+
+![](./plots/pbmc_atac_10k_chromiumX.png)
+
+#### pbmc_multiome_3k_sorted
+
+![](./plots/pbmc_multiome_3k_sorted.png)
+
+#### pbmc_multiome_3k_unsorted
+
+![](./plots/pbmc_multiome_3k_unsorted.png)
+
+#### pbmc_multiome_10k_sorted
+
+![](./plots/pbmc_multiome_10k_sorted.png)
+
+#### pbmc_multiome_10k_unsorted
+
+![](./plots/pbmc_multiome_10k_unsorted.png)
+
+#### pbmc_multiome_10k_chromium
+
+![](./plots/pbmc_multiome_10k_chromium.png)
+
+#### pbmc_multiome_10k_chromiumX
+
+![](./plots/pbmc_multiome_10k_chromiumX.png)
+
+#### pbmc_reference
+
+![](./plots/pbmc_reference.png)
+
+### BMMC
+
+#### bmmc_atac
+
+![](./plots/bmmc_atac.png)
+
+#### bmmc_multiome
+
+![](./plots/bmmc_multiome.png)
+
