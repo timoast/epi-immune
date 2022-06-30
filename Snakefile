@@ -26,17 +26,19 @@ bmmc_multiome = [
 
 pbmc_reference = [
         "pbmc_reference"
-]
+        ]
 
 bmmc_reference = [
         "bmmc_reference"
-]
+        ]
 
 all_samples = pbmc_atac + pbmc_multiome + bmmc_atac + bmmc_multiome + pbmc_reference + bmmc_reference
 
 rule all:
   input:
-      expand("objects/{sample}.rds", sample = all_samples)
+      expand("objects/{sample}.rds", sample = all_samples),
+      expand("annotations/{sample}.tsv", sample = all_samples),
+      expand("plots/{sample}.png", sample = all_samples)
 
 # ---- Download ---- #
 
@@ -93,7 +95,7 @@ rule download_bmmc_multiome_frags:
       """
 
 rule download_bmmc_reference:
-    output: "objects/bmmc_reference.rds"
+    output: "data/bmmc_reference/fullref.Rds"
     message: "Download BMMC reference object"
     threads: 1
     shell:
@@ -166,6 +168,16 @@ rule process_bmmc_atac:
         Rscript processing_code/bmmc_atac.R
         """
 
+rule process_bmmc_reference:
+    input: "data/bmmc_reference/fullref.Rds"
+    output: "objects/bmmc_reference.rds"
+    threads: 1
+    message: "Process BMMC reference object"
+    shell:
+        """
+        Rscript processing_code/bmmc_reference.R
+        """
+
 rule create_annotations:
     output:
         "data/annotations_hg38.rds"
@@ -214,4 +226,31 @@ rule process_pbmc_atac:
                 {input.annot} \
                 {input.peaks} \
                 {wildcards.sample} 
+        """
+
+# ---- Map ---- #
+
+rule refmap:
+    input:
+        "objects/{sample}.rds",
+        "objects/pbmc_reference.rds",
+        "objects/bmmc_reference.rds"
+    output: "annotations/{sample}.tsv"
+    message: "Reference mapping {wildcards.sample}"
+    threads: 1
+    shell:
+        """
+        Rscript processing_code/refmap.R {wildcards.sample}
+        """
+
+# ---- Plot ---- #
+
+rule plot:
+    input: "objects/{sample}.rds", "annotations/{sample}.tsv"
+    output: "plots/{sample}.png"
+    message: "Plotting {wildcards.sample}"
+    threads: 1
+    shell:
+        """
+        Rscript processing_code/plot.R {wildcards.sample}
         """
