@@ -241,6 +241,7 @@ rule refmap:
     shell:
         """
         Rscript processing_code/refmap.R {wildcards.sample}
+        gzip annotations/{wildcards.sample}.tsv
         """
 
 # ---- Plot ---- #
@@ -253,5 +254,4 @@ rule plot:
     shell:
         """
         Rscript processing_code/plot.R {wildcards.sample}
-        gzip annotations/{wildcards.sample}.tsv
         """
