@@ -37,7 +37,7 @@ all_samples = pbmc_atac + pbmc_multiome + bmmc_atac + bmmc_multiome + pbmc_refer
 rule all:
   input:
       expand("objects/{sample}.rds", sample = all_samples),
-      expand("annotations/{sample}.tsv", sample = all_samples),
+      expand("annotations/{sample}.tsv.gz", sample = all_samples),
       expand("plots/{sample}.png", sample = all_samples)
 
 # ---- Download ---- #
@@ -246,11 +246,12 @@ rule refmap:
 # ---- Plot ---- #
 
 rule plot:
-    input: "objects/{sample}.rds", "annotations/{sample}.tsv"
+    input: "objects/{sample}.rds", "annotations/{sample}.tsv.gz"
     output: "plots/{sample}.png"
     message: "Plotting {wildcards.sample}"
     threads: 1
     shell:
         """
         Rscript processing_code/plot.R {wildcards.sample}
+        gzip annotations/{wildcards.sample}.tsv
         """
