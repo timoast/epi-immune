@@ -39,6 +39,7 @@ obj <- TSSEnrichment(obj)
 # add gene activity
 ga <- GeneActivity(object = obj)
 obj[["GA"]] <- CreateAssayObject(counts = ga)
+obj <- NormalizeData(object = obj, assay = 'GA')
 
 # create assay containing shared peaks
 common_counts <- FeatureMatrix(
