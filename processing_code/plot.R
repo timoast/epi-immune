@@ -8,7 +8,7 @@ obj <- readRDS(paste0("objects/", samplename, ".rds"))
 if (grepl("reference", samplename)) {
   gb <- 'celltype.l2'
 } else {
-  annot <- read.table(paste0("annotations/", samplename, ".tsv"), sep = "\t")
+  annot <- read.table(paste0("annotations/", samplename, ".tsv.gz"), sep = "\t")
   obj <- AddMetaData(obj, annot)
   gb <- 'predicted.id'
 }
